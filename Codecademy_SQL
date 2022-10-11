@@ -52,4 +52,36 @@ ORDER BY 2 DESC;
 --url: the link of the story
 
 # Q1 Hacker News Moderating
+-- STEP 1, culculate the total score
+-- STEP 2, find users who got combined scores more than 200 (WHY 200?)
+SELECT user, SUM(score)
+FROM hacker_news
+GROUP BY user
+HAVING SUM(score) >200
+ORDER BY 2 DESC;
+
+--STEP 3, sum those users' scores and devided by the total scores.
+SELECT (517 + 309 + 304 +282) / 6366.0; [That is 22%]
+SELECT (517 + 309 + 304 +282) / 6366;  [WRONG. got 0]
+
+-- STEP 4, The url of the video is: https://www.youtube.com/watch?v=dQw4w9WgXcQ How many times has each offending user posted this link?
+SELECT user, COUNT(*)
+FROM hacker_news
+WHERE url LIKE '%watch?v=dQw4w9WgXcQ%'
+GROUP BY user
+ORDER BY COUNT(*) DESC;
+
+-- STEP 5, CASE statement with count
+SELECT CASE
+   WHEN url LIKE '%github.com%' THEN 'GitHub'
+   WHEN url LIKE '%medium.com%' THEN 'Medium'
+   WHEN url LIKE '%nytime.com%' THEN 'New York Times'
+   ELSE THEN 'Other'
+  END AS 'Source', COUNT(*)
+FROM hacker_news
+GROUP BY 1;
+
+
+
+
 
