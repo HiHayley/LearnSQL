@@ -1,5 +1,7 @@
 ## Project study: Trends in Startups
 
+--------------------------------------------------------------------------------------------------------------------
+
 Role: a TechCrunch reporter
 Task: write an article on the rising treands in the startup world
 
@@ -42,7 +44,7 @@ GROUP BY location
 HAVING ROUND(AVG(employees), 0) > 500
 ORDER BY 2 DESC;
 
-
+--------------------------------------------------------------------------------------------------------------------
 ## Project study: Analyze Hacker News Trends
 # Colunms in it:
 --title: the title of the story
@@ -117,3 +119,7 @@ FROM hacker_news
 WHERE timestamp IS NOT NULL
 GROUP BY 1
 ORDER BY 1;
+
+--------------------------------------------------------------------------------------------------------------------
+
+
