@@ -72,16 +72,48 @@ GROUP BY user
 ORDER BY COUNT(*) DESC;
 
 -- STEP 5, CASE statement with count
+--Which sites feed Hacker News?
 SELECT CASE
-   WHEN url LIKE '%github.com%' THEN 'GitHub'
-   WHEN url LIKE '%medium.com%' THEN 'Medium'
-   WHEN url LIKE '%nytime.com%' THEN 'New York Times'
-   ELSE THEN 'Other'
+   WHEN url LIKE '%github%' THEN 'GitHub'
+   WHEN url LIKE '%medium%' THEN 'Medium'
+   WHEN url LIKE '%nytime%' THEN 'New York Times'
+   ELSE 'Other'
   END AS 'Source', COUNT(*)
 FROM hacker_news
 GROUP BY 1;
 
+--STEP 9 SQLite comes with a srtftime() function - allows you to return a formatted date.
+  It takes two arguments: strftime(format, colunm)
+  For strftime(__, timestamp):
+               %Y returns the year (YYYY)
+               %m returns the month (01-12)
+               %d returns the day of the month (1-31)
+               %H returns 24-hour clock (00-23)
+               %M returns the minute (00-59)
+               %S returns the seconds (00-59)
+               if timestamp format is YYYY-MM-DD HH:MM:SS.
+SELECT timestamp, 
+  strftime('%H', timestamp)
+FROM hacker_news
+GROUP BY 1
+LIMIT 20;
 
+-- STEP 11, now we understand how strftime() works. Let’s write a query that returns three columns:
+            The hours of the timestamp
+            The average score for each hour
+            The count of stories for each hour
+            Let’s edit a few things in the previous query:
 
+            Round the average scores (ROUND()).
+            Rename the columns to make it more readable (AS).
+            Add a WHERE clause to filter out the NULL values in timestamp.
+            Take a look at the result again:
+            What are the best hours to post a story on Hacker News?
 
-
+SELECT strftime('%H', timestamp) AS 'Hour',
+  ROUND(AVG(score)) AS 'Score', 
+  COUNT(*) AS 'Number of Stories'
+FROM hacker_news
+WHERE timestamp IS NOT NULL
+GROUP BY 1
+ORDER BY 1;
