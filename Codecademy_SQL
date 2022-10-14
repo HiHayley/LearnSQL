@@ -121,5 +121,96 @@ GROUP BY 1
 ORDER BY 1;
 
 --------------------------------------------------------------------------------------------------------------------
+【Multiple Tables】
+
+We could have one table with all of the following information:
+
+order_id
+customer_id
+customer_name
+customer_address
+subscription_id
+subscription_description
+subscription_monthly_price
+subscription_length
+purchase_date
+
+##Combining Tables with SQL
+
+# table_name.column_name to make sure our requests for columns are unambiguous
+
+-- Checkpoint 1
+SELECT *
+FROM orders
+JOIN subscriptions
+  ON orders.subscription_id = subscriptions.subscription_id;
+
+-- Checkpoint 2
+SELECT *
+FROM orders
+JOIN subscriptions
+  ON orders.subscription_id = subscriptions.subscription_id
+WHERE subscriptions.description = 'Fashion Magazine';
+
+# Inner Joins
+
+# Left Joins
+SETP 1, performing a left join of newspaper table and online table on their id columns and selecting all columns.
+         find which users do not subscribe to the online edition, we need to add a WHERE clause.
+
+--Checkpoint 1
+SELECT *
+FROM newspaper
+LEFT JOIN online
+  ON newspaper.id = online.id;
+
+  --Checkpoint 2
+
+SELECT *
+FROM newspaper
+LEFT JOIN online
+  ON newspaper.id = online.id
+WHERE online.id IS NULL;
+
+#PRIMARY KEY VS FOREIGN KEY
+
+#Cross Join
+SELECT shirts.shirt_color,
+   pants.pants_color
+FROM shirts
+CROSS JOIN pants;
+   - The first two lines select the columns shirt_color and pants_color.
+   - The third line pulls data from the table shirts.
+   - The fourth line performs a CROSS JOIN with pants.
+
+SELECT COUNT(*)
+FROM newspaper
+WHERE start_month <= 3
+  AND end_month >= 3;
+  
+-- The previous query lets us investigate one month at a time. In order to check across all months, we’re going to need to use a cross join.
+-- Our database contains another table called months which contains the numbers between 1 and 12.
+-- Select all columns from the cross join of newspaper and months.
+-- Create a third query where you add a WHERE statement to your cross join to restrict to two conditions:
+      start_month <= month
+      end_month >= month
+-- This will select all months where a user was subscribed.
+-- Create a final query where you aggregate over each month to count the number of subscribers.
+      Fill in the blanks in the following query:
+
+      SELECT month,
+        COUNT(*)
+      FROM ________
+      CROSS JOIN ________
+      WHERE ________ AND ________
+      GROUP BY ________;
+
+SELECT month, 
+  COUNT(*) AS 'Subscribers'
+FROM newspaper
+CROSS JOIN months
+WHERE start_month <= month
+  AND end_month >= month
+GROUP BY month;
 
 
